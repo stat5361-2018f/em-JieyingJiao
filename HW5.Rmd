@@ -1,0 +1,19 @@
+---
+title: "Statistical Computing Homework 5"
+# subtitle: "possible subtitle goes here"
+author:
+  - Jieying Jiao
+date: "`r format(Sys.time(), '%d %B %Y')`"
+documentclass: article
+papersize: letter
+fontsize: 11pt
+bibliography: template.bib
+biblio-style: asa
+keywords: Template, R Markdown, bookdown, Data Lab
+# keywords set in YAML header here only go to the properties of the PDF output
+# the keywords that appear in PDF output are set in latex/before_body.tex
+output:
+  bookdown::pdf_document2
+abstract: |
+    This is Jieying Jiao's homework 5 for statistical computing, fall 2018.
+---
