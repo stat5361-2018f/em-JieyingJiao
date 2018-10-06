@@ -155,6 +155,7 @@ regmix_em <- function(y, xmat, pi.init, beta.init, sigma.init,
   p <- matrix(0, nrow = n, ncol = m)
   beta.new <- matrix(0, nrow = ncol(xmat), ncol = m)
   xmat <- as.matrix(xmat)
+  convergence <- 0
   
   for (i in 1:maxit) {
     for (obs in 1:n) {
@@ -174,8 +175,12 @@ regmix_em <- function(y, xmat, pi.init, beta.init, sigma.init,
     beta <- beta.new
     sigma <- sigma.new
   }
-  if (i == maxit) print("reach maximum iteration number without convergence")
-  return(list(pi = pi.new, beta = beta.new, sigma = sigma.new, i = i))
+  if (i == maxit) {
+    print("reach maximum iteration number without convergence")
+    convergence <- 1
+  } 
+  return(list(pi = pi.new, beta = beta.new, sigma = sigma.new, 
+              convergence = convergence, iteration.number = i))
 }
 ```
 
@@ -207,12 +212,15 @@ fit <- regmix_em(y = dat[,1], xmat = dat[,-1], pi.init = pi / pi / length(pi),
                  beta.init = matrix(c(1, 2, 3, 0, 0, 0), 2, 3), 
                  sigma.init = sig / sig, 
                  control = list(maxit = 500, tol = 1e-5))
+fit$convergence
+fit$iteration.number
 
 fit$pi
 fit$beta
 fit$sigma
 ```
 
-The fitted value are shown above. As we can observe, if the initial value for 
-$\beta$ is same for every group, then the value won't get updated in each iteration.
-So I changed the initial value instead of using all 0's.
+The fitted value are shown above. Also it's shown that the algorithm converged 
+successfully after 59 iterations. As we can observe, if the initial value for 
+$\beta$ is same for every group, then the value won't get updated in each 
+iteration. So I changed the initial value instead of using all 0's.
